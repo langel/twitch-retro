@@ -1,6 +1,6 @@
 
 const http = require('http');
-let request = require('./lib/request');
+let router = require('./lib/router');
 
 //require('bootstrap');
 
@@ -10,7 +10,7 @@ console.log('staring server . . .');
 
 let server = http.createServer(function(req, res) {
 
-	request.process(req, res);
+	router.process(req, res);
 
 })
 
