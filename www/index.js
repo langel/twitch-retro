@@ -42,11 +42,29 @@ let page_container = document.getElementById('main_cont');
 let nav_options = document.querySelectorAll("nav button");
 nav_options.forEach((el) => {
 	el.addEventListener('click', () => {
-		let page = ajax.get_text('/pages/' + el.textContent.toLowerCase() + '.html').then(data => {
+		let page = el.textContent.toLowerCase();
+		ajax.get_text('/pages/' + page + '.html').then(data => {
 			page_container.innerHTML = data; 
+			if (typeof page_shit[page] == 'function') page_shit[page]();
 		});
 	});
 });
 
 
-document.getElementById('home_button').click();
+let page_shit = {
+	'add game': () => {
+		document.getElementById('add-game-form').addEventListener('submit', (e) => {
+			e.preventDefault(e);
+			ajax.post('/api/add_game', {
+				'game_title': document.getElementById('add-game-title').value
+			});
+			return false;
+		});
+	}
+};
+
+
+window.onload = () => {
+	document.getElementById('home_button').click();
+};
+
